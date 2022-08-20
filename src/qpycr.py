@@ -116,6 +116,48 @@ def calculate_d_cqs(
             avg_cqs["mean"] - avg_cqs["mean_ic"], np.NaN
         )
 
-    avg_cqs["fc"] = 2**-avg_cqs["d_cq"]
-
     return avg_cqs
+
+def calculate_dd_cqs(
+    cqs: pd.DataFrame,
+    internal_controls: list,
+    calibrator: str
+):
+
+    # Check if the arguments are valid
+    if not isinstance(cqs, pd.DataFrame):
+
+        raise TypeError("The argument passed to `cqs` must be a `pd.DataFrame`")
+
+    if not isinstance(internal_controls, list):
+
+        raise TypeError("The argument passed to `internal_controls` must be a `list`")
+
+    if not isinstance(calibrator, str):
+
+        raise TypeError("The argument passed to `calibrator` must be a `str`")
+
+    # Calculate the delta Cq values
+    dd_cqs = q.calculate_d_cqs(cqs, internal_controls)
+
+    # Extract the delta Cq values for each TOI in the calibrator
+    d_cqs_ic = dd_cqs[
+            (dd_cqs["sample"] == calibrator)
+            & ~(dd_cqs["target"].isin(internal_controls))
+        ][
+            ["target", "d_cq"]
+        ].rename(
+            mapper={"d_cq": "d_cq_ic"},
+            axis=1
+        )
+
+    dd_cqs = dd_cqs.merge(
+            right=d_cqs_ic,
+            how="left",
+            on="target"
+        )
+
+    dd_cqs["dd_cq"] = dd_cqs["d_cq"] - dd_cqs["d_cq_ic"]
+    dd_cqs["fc"] = 2**-dd_cqs["dd_cq"]
+
+    return dd_cqs
