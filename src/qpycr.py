@@ -7,11 +7,11 @@ def calculate_avg_cqs(
     """
     This function takes a data frame with at least the following 
     columns: (1) a column containg the raw Cq values, (2) a column 
-    containing the sample identifier, and (3) a column containing 
-    the target name.
+    containing the sample identifiers, and (3) a column containing 
+    the target names.
 
     For every sample-target combination, the average Cq value and 
-    the standard deviation of the technical replicates is calculated.
+    the standard deviation of the technical replicates are calculated.
 
     Args:
         cqs (pd.DataFrame): data frame containg sample identifiers, 
@@ -56,10 +56,10 @@ def calculate_d_cqs(
     """
     This function takes a data frame with at least the following 
     columns: (1) a column containg the raw Cq values, (2) a column 
-    containing the sample identifier, and (3) a column containing 
-    the target name.
+    containing the sample identifiers, and (3) a column containing 
+    the target names.
 
-    The mean and standard deviation of the technical replicates is 
+    The mean and standard deviation of the technical replicates are 
     calculated for every sample-target combination using the 
     <b>calculate_avg_cqs()</b> function. For each sample, the mean Cq 
     values of the targets in the <b>internal_controls</b> list are 
@@ -68,13 +68,9 @@ def calculate_d_cqs(
     negative power of the delta Cq value.
 
     Args:
-        cqs (pd.DataFrame): _description_
-        internal_controls (list): _description_
-
-    Raises:
-        TypeError: data frame containg sample identifiers, 
+        cqs (pd.DataFrame): data frame containg sample identifiers, 
             target names, and raw Cq values.
-        TypeError: list object specifying the internal controls.
+        internal_controls (list): list specifying internal controls.
 
     Returns:
         pd.DataFrame: data frame containg the mean and standard 
