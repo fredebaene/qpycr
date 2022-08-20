@@ -89,7 +89,7 @@ def calculate_d_cqs(
         raise TypeError("The argument passed to `internal_controls` must be a `list`")
     
     # Calculate mean Cq for each sample-target combination
-    avg_cqs = q.calculate_avg_cqs(cqs)
+    avg_cqs = calculate_avg_cqs(cqs)
 
     # Calculate mean of the mean Cq values for the internal controls
     avg_ic_cqs = avg_cqs[
