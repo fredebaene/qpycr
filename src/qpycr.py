@@ -1,3 +1,4 @@
+# Load libraries
 import numpy as np
 import pandas as pd
 
@@ -118,6 +119,7 @@ def calculate_d_cqs(
 
     return avg_cqs
 
+
 def calculate_dd_cqs(
     cqs: pd.DataFrame,
     internal_controls: list,
@@ -138,7 +140,7 @@ def calculate_dd_cqs(
         raise TypeError("The argument passed to `calibrator` must be a `str`")
 
     # Calculate the delta Cq values
-    dd_cqs = q.calculate_d_cqs(cqs, internal_controls)
+    dd_cqs = calculate_d_cqs(cqs, internal_controls)
 
     # Extract the delta Cq values for each TOI in the calibrator
     d_cqs_ic = dd_cqs[
